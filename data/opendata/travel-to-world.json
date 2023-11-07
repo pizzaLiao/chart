@@ -1,0 +1,20 @@
+[
+    {
+        "month":1,
+        "total" :696474,
+        "asia":607783,
+        "america":51411,
+        "europe":20834,
+        "oceania":16178,
+        "africa":59
+    },
+    {
+        "month":2,
+        "total" :696474,
+        "asia":607783,
+        "america":51411,
+        "europe":20834,
+        "oceania":16178,
+        "africa":59
+    }
+]
