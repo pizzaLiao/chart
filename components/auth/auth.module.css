@@ -1,0 +1,47 @@
+.signPop {
+  width: 400px;
+  /* text-align: center; */
+  box-shadow: 3px 3px 10px #1d242c32;
+  border-radius: 5px;
+  z-index: 999;
+  position: absolute;
+  top: 20%;
+  left: calc(50% - 200px);
+  padding: 30px;
+  display: inline-block;
+}
+.loginBtn {
+  width: 100%;
+}
+
+.pswWraper {
+  position: relative;
+}
+
+.eyeIcon {
+  border: 0;
+  background: none;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.forgetPsw {
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+
+.notice {
+  color: #f55050;
+  margin-top: 5px;
+  border: 1px solid #f55050;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.errInline {
+  color: #d6e154;
+  margin-top: 2px;
+}
