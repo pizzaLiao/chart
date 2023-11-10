@@ -64,6 +64,7 @@ export default function Sign() {
     const newPassword = e.target.value;
     setPassword(newPassword);
     setCheckPsw(isValidPsw(newPassword));
+    setCheckRePsw(rePassword === newPassword);
   };
 
   const handleEmailChange = (e) => {
