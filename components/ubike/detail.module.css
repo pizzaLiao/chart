@@ -2,12 +2,15 @@
   margin-top: 30px;
   font-size: 24px;
   color: #f86f03;
+  display: inline-block;
 }
 .sareaen {
   font-size: 20px;
-  color: #ffa41b;
+  color: #f86f03;
   font-weight: 600;
   margin-bottom: 30px;
+  display: inline-block;
+  margin-left: 10px;
 }
 .ar {
 }

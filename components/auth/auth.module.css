@@ -56,3 +56,16 @@
   color: #aaa;
   margin-top: 3px;
 }
+.googleBtn {
+  width: 100%;
+  text-align: center;
+}
+
+.googleLogo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  /* background: #000; */
+  /* padding: 3px; */
+  /* border-radius: 50%; */
+}

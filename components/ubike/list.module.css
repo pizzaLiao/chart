@@ -1,19 +1,33 @@
-.tablewraper{
-    background-color: #f5f5f5;
-    border-radius: 10px;
+.tablewraper {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  @media (max-width: 768px) {
+    margin-inline: 10px;
+  }
 }
-.title{
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-    margin: 0;
-    padding-block: 10px;
-    background-color: #FFA41B;
-    color: #F5F5F5;
+.title {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  margin: 0;
+  padding-block: 10px;
+  background-color: #ffa41b;
+  color: #f5f5f5;
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 }
-.items{
-    margin: 0;
-    padding-block: 15px;
+.items {
+  margin: 0;
+  padding-block: 15px;
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 }
 .items:nth-child(even) {
-    background-color: rgb(240, 240, 240); /* 偶數列的背景顏色 */
+  background-color: rgb(240, 240, 240); /* 偶數列的背景顏色 */
+}
+
+.sbiText {
+  font-weight: 700;
+  color: #e38800;
 }

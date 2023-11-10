@@ -10,6 +10,7 @@ import { useUser } from "@/context/userContext";
 // import { useNavigate } from "react-router-dom";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
+import SignWithGoogle from "./sign-with-google";
 
 export default function Sign() {
   const [email, setEmail] = useState("");
@@ -202,6 +203,7 @@ export default function Sign() {
               登入
             </button>
           </form>
+          <SignWithGoogle />
           <p className="mt-3 text-center text-secondary">
             還不是會員嗎？
             <a

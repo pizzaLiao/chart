@@ -2,5 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/homepage": "pages/homepage.js"
+  "/ubike": "pages/ubike.js",
+  "/homepage/login": "pages/homepage/login.js"
 }
