@@ -30,10 +30,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/homepage.js"
     ],
-    "/ubike": [
+    "/homepage/login": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/ubike.js"
+      "static/chunks/pages/homepage/login.js"
     ]
   },
   "ampFirstPages": []

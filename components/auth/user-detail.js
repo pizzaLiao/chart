@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "@/hooks/firebase-congig.js";
 import { onAuthStateChanged, signOut } from "@firebase/auth";
+import { useRouter } from "next/router";
 
 export default function UserDetail() {
   const [authUser, setAuthUser] = useState(null);
+  const router = useRouter();
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -25,6 +27,7 @@ export default function UserDetail() {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         console.log(`sign out successful`);
+        router.push("/homepage/login");
       })
       .catch((error) => {
         console.log(error);

@@ -7,12 +7,17 @@ import {
 import { auth } from "@/hooks/firebase-congig.js";
 import styles from "@/components/auth/auth.module.css";
 import { useUser } from "@/context/userContext";
+// import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Sign() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [showPsw, setShowPsw] = useState(false);
+  const [showRePsw, setShowRePsw] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [checkAcc, setCheckAcc] = useState(false);
@@ -20,6 +25,52 @@ export default function Sign() {
   const [checkRePsw, setCheckRePsw] = useState(false);
 
   const { setUser } = useUser();
+  //   const navigate = useNavigate();
+  const router = useRouter();
+
+  const registerNotify = () =>
+    toast.success("註冊成功─=≡Σ((( つ•̀ω•́)つ 正在為您導向首頁");
+  const loginNotify = () => toast.success("登入成功 ─=≡Σ((( つ•̀ω•́)つ");
+
+  const clearAll = () => {
+    setEmail("");
+    setPassword("");
+    setRePassword("");
+    setCheckAcc(false);
+    setCheckPsw(false);
+    setCheckRePsw(false);
+    setShowPsw(false);
+    setShowRePsw(false);
+  };
+
+  const isValidPsw = (password) => {
+    const pswRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    return pswRegex.test(password);
+  };
+
+  const isValidEmail = (email) => {
+    // 驗證電子郵件格式
+    const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+    return emailRegex.test(email);
+  };
+
+  const handleRePswChange = (e) => {
+    const newRePassword = e.target.value;
+    setRePassword(newRePassword);
+    setCheckRePsw(newRePassword === password);
+  };
+
+  const handlePswChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setCheckPsw(isValidPsw(newPassword));
+  };
+
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    setCheckAcc(isValidEmail(newEmail));
+  };
 
   const signIn = async (e) => {
     e.preventDefault();
@@ -35,6 +86,12 @@ export default function Sign() {
       setUser(JSON.stringify(user));
       localStorage.setItem("token", user.accessToken);
       localStorage.setItem("user", JSON.stringify(user));
+      // 登入成功後導航到首頁
+      //   navigate("/homepage");
+      loginNotify();
+      setTimeout(() => {
+        router.push("/homepage");
+      }, 1500);
     } catch (error) {
       let message = "";
       if (error.code === "auth/wrong-password") {
@@ -65,11 +122,11 @@ export default function Sign() {
         password
       );
       console.log(userCredential);
-      //   const user = userCredential.user;
-      //存入context
-      //   setUser(JSON.stringify(user));
-      //   localStorage.setItem("token", user.accessToken);
-      //   localStorage.setItem("user", JSON.stringify(user));
+      registerNotify();
+
+      setTimeout(() => {
+        router.push("/homepage");
+      }, 1500);
     } catch (error) {
       console.log(error);
     }
@@ -79,25 +136,26 @@ export default function Sign() {
     <>
       {isLogin ? (
         <div className={`${styles.signPop}`}>
-          <h1>Login</h1>
+          <Toaster />
+          <h1 className={`${styles.title}`}>登入</h1>
           <form action="" onSubmit={signIn}>
-            <label htmlFor="">ACCOUNT</label> <br />
+            <label htmlFor="">帳號</label> <br />
             <input
               type="email"
               className="form-control"
-              placeholder="enter your email"
+              placeholder="請輸入你的電子郵件"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
             />
             <br />
-            <label htmlFor="">PASSWORD</label> <br />
+            <label htmlFor="">密碼</label> <br />
             <div className={`${styles.pswWraper}`}>
               <input
                 type={showPsw ? "text" : "password"}
                 className="form-control"
-                placeholder="enter your password"
+                placeholder="請輸入"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -140,7 +198,7 @@ export default function Sign() {
               type="submit"
               className={`btn btn-dark mt-2 ${styles.loginBtn}`}
             >
-              submit
+              登入
             </button>
           </form>
           <p className="mt-3 text-center text-secondary">
@@ -149,8 +207,8 @@ export default function Sign() {
               className="text-primary"
               href="#"
               onClick={() => {
-                // e.preventDefault();
                 setIsLogin(false);
+                clearAll();
               }}
             >
               註冊帳號
@@ -159,36 +217,35 @@ export default function Sign() {
         </div>
       ) : (
         <div className={`${styles.signPop}`}>
-          <h1>Create Account</h1>
+          <Toaster />
+          <h1 className={`${styles.title}`}>註冊</h1>
           <form action="" onSubmit={signUp}>
-            <label htmlFor="">ACCOUNT</label> <br />
+            <label htmlFor="">帳號</label> <br />
             <input
               type="email"
               className="form-control"
               placeholder="請輸入電子郵件"
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={handleEmailChange}
             />
             {checkAcc ? (
-              <div className={`${styles.errInline}`}>
-                <i class="bi bi-check-circle-fill me-2"></i>可用的電子信箱
+              <div className={`${styles.sucInline}`}>
+                <i class="bi bi-emoji-smile-fill me-2"></i>可用的電子信箱
               </div>
             ) : (
-              ""
+              <div className={`${styles.defInline}`}>
+                <i class="bi bi-emoji-frown me-2"></i>請輸入可用的信箱
+              </div>
             )}
             <br />
-            <label htmlFor="">PASSWORD</label> <br />
+            <label htmlFor="">密碼</label> <br />
             <div className={`${styles.pswWraper}`}>
               <input
                 type={showPsw ? "text" : "password"}
                 className="form-control"
-                placeholder="密碼必須至少 6 個字元"
+                placeholder="請輸入"
                 value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
+                onChange={handlePswChange}
               />
               {showPsw ? (
                 <button
@@ -212,25 +269,30 @@ export default function Sign() {
                 </button>
               )}
             </div>
-            <div className={`${styles.errInline}`}>
-              <i class="bi bi-check-circle-fill me-2"></i>符合規定的密碼
-            </div>
+            {checkPsw ? (
+              <div className={`${styles.sucInline}`}>
+                <i class="bi bi-emoji-smile-fill me-2"></i>符合規定的密碼
+              </div>
+            ) : (
+              <div className={`${styles.defInline}`}>
+                <i class="bi bi-emoji-frown me-2"></i>
+                必須大於8個字元，且包含至少一個數字和英文
+              </div>
+            )}
             <div className={`${styles.pswWraper}`}>
               <input
                 type={showPsw ? "text" : "password"}
                 className="form-control mt-3"
                 placeholder="再次輸入密碼"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
+                value={rePassword}
+                onChange={handleRePswChange}
               />
-              {showPsw ? (
+              {showRePsw ? (
                 <button
                   type="button"
                   className={`${styles.eyeIcon}`}
                   onClick={() => {
-                    setShowPsw(false);
+                    setShowRePsw(false);
                   }}
                 >
                   <i className={`bi bi-eye `}></i>
@@ -240,21 +302,29 @@ export default function Sign() {
                   type="button"
                   className={`${styles.eyeIcon}`}
                   onClick={() => {
-                    setShowPsw(true);
+                    setShowRePsw(true);
                   }}
                 >
                   <i className={`bi bi-eye-slash`}></i>
                 </button>
               )}
             </div>
-            <div className={`${styles.errInline}`}>
-              <i class="bi bi-check-circle-fill me-2"></i>前後密碼一致
-            </div>
+            {checkRePsw ? (
+              <div className={`${styles.sucInline}`}>
+                <i class="bi bi-emoji-smile-fill me-2"></i>前後密碼一致
+              </div>
+            ) : (
+              <div className={`${styles.defInline}`}>
+                <i class="bi bi-emoji-frown me-2"></i>前後密碼不一致
+              </div>
+            )}
             <button
               type="submit"
-              className={`btn btn-dark mt-5 ${styles.loginBtn}`}
+              className={`btn btn-dark mt-5 ${styles.loginBtn} ${
+                checkAcc && checkPsw && checkRePsw ? "" : "disabled"
+              }`}
             >
-              submit
+              註冊
             </button>
           </form>
           <p className="mt-3 text-center text-secondary">
@@ -265,6 +335,7 @@ export default function Sign() {
               onClick={() => {
                 // e.preventDefault();
                 setIsLogin(true); // 切換到登入模式
+                clearAll();
               }}
             >
               登入
