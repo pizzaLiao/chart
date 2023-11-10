@@ -282,7 +282,7 @@ export default function Sign() {
             )}
             <div className={`${styles.pswWraper}`}>
               <input
-                type={showPsw ? "text" : "password"}
+                type={showRePsw ? "text" : "password"}
                 className="form-control mt-3"
                 placeholder="再次輸入密碼"
                 value={rePassword}
